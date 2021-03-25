@@ -22,6 +22,8 @@ World* world_init(int n_countries){
 void world_destroy(World* world){
     for (int i=0; i<world->n_countries; i++){
         for (int j=0; j<world->n_regions_countries[i]; j++){
+            Person* first = world->countries[i][j];
+            person_recursive_destroy(first, 0);
             free(world->countries[i][j]);
         }
         free(world->countries[i]);
@@ -31,6 +33,7 @@ void world_destroy(World* world){
     free(world->countries);
     free(world->people_count);
     free(world);
+
 }
 
 void world_create_region(World* world, int idx, int amount){

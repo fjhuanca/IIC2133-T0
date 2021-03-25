@@ -17,7 +17,7 @@ Person* person_init(int id, int state){
 }
 
 Person* person_append_contact(Person* person, int other_id, int state){
-    Person* new = (Person*) malloc(sizeof(Person));
+    Person* new;
     new = person_init(other_id, state);
     new->parent = person;
     
@@ -26,7 +26,7 @@ Person* person_append_contact(Person* person, int other_id, int state){
     }
     else{
         new->prev = person->tail;
-        person->next = new;
+        person->tail->next = new;
     }
     person->tail = new;
     return new;
@@ -50,7 +50,18 @@ void person_recursive_inform(Person* person, int depth, FILE* file){
     fprintf(file, "%s%d:%d\n",spc_str, person->id, person->state);
     Person* current = person->head;
     while (current != NULL){
-        person_recursive_inform(person, depth+1, file);
-        current = person->next;
+        person_recursive_inform(current, depth+1, file);
+        current = current->next;
     } 
+}
+void person_recursive_destroy(Person* person, int depth){
+    Person* current = person->head;
+    Person* last = NULL;
+    while (current != NULL){
+        free(last);
+        person_recursive_destroy(current, depth+1);
+        last = current;  
+        current = current->next;  
+    }
+    free(last);
 }
