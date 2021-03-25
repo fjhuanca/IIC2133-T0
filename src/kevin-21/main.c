@@ -4,6 +4,9 @@
 #include <stdbool.h>
 #include <math.h>
 
+#include "../structs/person.h"
+#include "../structs/world.h"
+
 
 
 /* Retorna true si ambos strings son iguales */
@@ -35,6 +38,28 @@ int main(int argc, char **argv)
     /* Salimos del programa indicando que no terminó correctamente */
     return 1;
   }
+  /*
+  Person* p1;
+  p1 = person_init(0,1);
+  printf("valor: %d\n", p1->id);
+  
+  person_append_contact(p1, 2, 3);
+  Person* pf = person_search_contact(p1, 3);
+  
+  printf("valor: %d\n", p1->tail->id);
+  printf("valor: %d", p1->head->id);
+  if (pf) printf("Finded: %d\n", pf->state);
+  else printf("Finded: %s\n", "NULL");
+  
+  World* world;
+  world = world_init(1);
+  world_create_region(world, 0, 1);
+  
+  printf("valor: %d\n", world->countries[0][0]->state);
+  printf("valor: %d\n", world->people_count[0][0]);
+  world_destroy(world);
+*/
+
 
   /* Abrimos el archivo de input */
   FILE *input_file = fopen(argv[1], "r");
@@ -50,6 +75,7 @@ int main(int argc, char **argv)
   fscanf(input_file, "%d", &n_countries);
 
   /* [Por implementar] Generamos nuestro mundo */
+  World* world = world_init(n_countries);
 
   /* Leemos la cantidad de regiones de cada país */
   int n_regions;
@@ -58,6 +84,7 @@ int main(int argc, char **argv)
     fscanf(input_file, "%d", &n_regions);
     
     /* [Por implementar] Poblamos el país con regiones */
+    world_create_region(world, cty, n_regions);
     
   }
 
@@ -95,17 +122,21 @@ int main(int argc, char **argv)
     /* POSITIVE */
     if (string_equals(command, "ADD_CONTACTS"))
     {
+      
       fscanf(input_file, "%d", &depth);
+      int route[depth];
       printf("ADD_CONTACTS %d %d %d ", country_id, region_id, depth);
       /* Obtenemos la ruta desde el archivo*/
       for (int r = 0; r < depth; r++)
       {
         fscanf(input_file, "%d", &contact_id);
         printf("%d ", contact_id);
+        route[r] = contact_id;
       }
       /* Obtenemos el numero de contactos */
       fscanf(input_file, "%d", &n_contacts);
       printf("%d\n", n_contacts);
+      world_add_contacts(world, country_id, region_id, depth, route, n_contacts);
 
     } 
     else if (string_equals(command, "POSITIVE"))
@@ -179,7 +210,7 @@ int main(int argc, char **argv)
     {
       fprintf(output_file, "INFORM %d %d\n", country_id, region_id);
       /* [Por implementar] */
-      
+      world_inform(world, country_id, region_id, output_file);
     } 
     else if (string_equals(command, "STATISTICS"))
     {
@@ -191,6 +222,7 @@ int main(int argc, char **argv)
   }
 
   /*  [Por implementar] Liberamos nuestra estructura */
+  world_destroy(world);
 
   fclose(input_file);
   fclose(output_file);
