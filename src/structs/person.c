@@ -54,14 +54,37 @@ void person_recursive_inform(Person* person, int depth, FILE* file){
         current = current->next;
     } 
 }
-void person_recursive_destroy(Person* person, int depth){
+void person_recursive_destroy(Person* person){
     Person* current = person->head;
     Person* last = NULL;
     while (current != NULL){
         free(last);
-        person_recursive_destroy(current, depth+1);
+        person_recursive_destroy(current);
         last = current;  
         current = current->next;  
     }
     free(last);
+}
+
+void person_discard(Person* person){
+    person_recursive_destroy(person);
+    if (person->prev && person->next){
+        person->prev->next = person->next;
+        person->next->prev = person->prev;
+    }
+            
+    else if (person->prev && !person->next){
+        person->prev->next = NULL;
+        person->parent->tail = person->prev;
+    }
+            
+    else if ( !person->prev && person->next){
+        person->next->prev = NULL;
+        person->parent->head = person->next;
+    }            
+    else if (!person->prev && !person->next){
+        person->parent->head = NULL;
+        person->parent->tail = NULL;
+    }
+    free(person);
 }

@@ -19,4 +19,5 @@ Person* person_init(int id, int state);
 Person* person_append_contact(Person* person, int other_id, int state);
 Person* person_search_contact(Person* person, int id);
 void person_recursive_inform(Person* person, int depth, FILE* file);
-void person_recursive_destroy(Person* person, int depth);
+void person_recursive_destroy(Person* person);
+void person_discard(Person* person);

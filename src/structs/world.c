@@ -23,7 +23,7 @@ void world_destroy(World* world){
     for (int i=0; i<world->n_countries; i++){
         for (int j=0; j<world->n_regions_countries[i]; j++){
             Person* first = world->countries[i][j];
-            person_recursive_destroy(first, 0);
+            person_recursive_destroy(first);
             free(world->countries[i][j]);
         }
         free(world->countries[i]);
