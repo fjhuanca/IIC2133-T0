@@ -226,6 +226,7 @@ int main(int argc, char **argv){
         else if (string_equals(command, "STATISTICS")){
             fprintf(output_file, "STATISTICS %d %d\n", country_id, region_id);
             /* [Por implementar] */
+            world_statistics(world, country_id, region_id, output_file);
         }
 
     }

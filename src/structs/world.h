@@ -18,4 +18,5 @@ Person* world_add_contact(World* world, Person* person, int new_id);
 void world_add_contacts(World* world, int country_idx, int region_idx, int depth,
                         int* route, int n_contacts);
 void world_inform(World* world, int country_idx, int region_idx, FILE* file);
+void world_statistics(World* world, int country_idx, int region_idx, FILE* file);
 

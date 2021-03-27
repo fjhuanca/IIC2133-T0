@@ -77,3 +77,13 @@ void world_inform(World* world, int country_idx, int region_idx, FILE* file){
     Person* first = world->countries[country_idx][region_idx];
     person_recursive_inform(first, 0, file); 
 }
+
+void world_statistics(World* world, int country_idx, int region_idx, FILE* file){
+    int stats[4] = {0, 0, 0, 0};
+    Person* person = world->countries[country_idx][region_idx];
+    person_recursive_statistics(person, stats);
+    /*fprintf(file, "STATISTICS %d %d\n", country_idx, region_idx);*/
+    for (int i=0; i<4; i++){
+        fprintf(file, "%d:%d\n",i, stats[i]);
+    }
+}

@@ -21,3 +21,4 @@ Person* person_search_contact(Person* person, int id);
 void person_recursive_inform(Person* person, int depth, FILE* file);
 void person_recursive_destroy(Person* person);
 void person_discard(Person* person);
+void person_recursive_statistics(Person* person, int* stats);
