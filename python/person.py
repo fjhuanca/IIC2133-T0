@@ -16,7 +16,7 @@ class Person:
 
         # Nodo anterior y siguiente correspondiente a los nodos hermanos
         self.prev = None
-        self._next = None
+        self._next = None 
 
     def append_contact(self, other_id: int, state: int):
         """ 
@@ -55,3 +55,36 @@ class Person:
              current.recursive_inform(depth + 1, output_file)
              current = current._next
         
+    def recursive_delete(self):
+        current = self.head
+        while current:
+             current.recursive_delete()
+             current = current._next
+             if current:
+                current._next = None
+
+        
+    def discard_person(self):
+        self.recursive_delete()
+        if self.prev and self._next:
+            self.prev._next = self._next
+            self._next.prev = self.prev
+            
+        elif self.prev and not self._next:
+            self.prev._next = None
+            self.parent.tail = self.prev
+            
+        elif not self.prev and self._next:
+            self._next.prev = None
+            self.parent.head = self._next
+            
+        elif not self.prev and not self._next:
+            self.parent.head = None
+            self.parent.tail = None
+            
+    def recursive_statistics(self, stats: List):
+        current = self.head
+        while current:
+             stats[current.state] += 1
+             current.recursive_statistics(stats)
+             current = current._next

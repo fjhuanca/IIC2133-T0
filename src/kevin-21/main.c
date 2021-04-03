@@ -91,17 +91,17 @@ int main(int argc, char **argv){
         if (string_equals(command, "ADD_CONTACTS")){
             fscanf(input_file, "%d", &depth);
             int route[depth];
-            printf("ADD_CONTACTS %d %d %d ", country_id, region_id, depth);
+            // printf("ADD_CONTACTS %d %d %d ", country_id, region_id, depth);
 
             /* Obtenemos la ruta desde el archivo*/
             for (int r = 0; r < depth; r++){
                 fscanf(input_file, "%d", &contact_id);
-                printf("%d ", contact_id);
+                // printf("%d ", contact_id);
                 route[r] = contact_id;
             }
             /* Obtenemos el numero de contactos */
             fscanf(input_file, "%d", &n_contacts);
-            printf("%d\n", n_contacts);
+            // printf("%d\n", n_contacts);
             world_add_contacts(world, country_id, region_id, depth, route, n_contacts);
 
         } 
@@ -109,15 +109,15 @@ int main(int argc, char **argv){
         else if (string_equals(command, "POSITIVE")){
 
             fscanf(input_file, "%d", &depth);
-            printf("POSITIVE %d %d %d ", country_id, region_id, depth);
+            // printf("POSITIVE %d %d %d ", country_id, region_id, depth);
             /* Obtenemos la ruta desde el archivo*/
             int route[depth];
             for (int r = 0; r < depth; r++){
                 fscanf(input_file, "%d", &contact_id);
                 route[r] = contact_id;
-                printf("%d ", contact_id);
+                // printf("%d ", contact_id);
             }
-            printf("\n");
+            // printf("\n");
             Person* person = world_search(world, country_id, region_id, depth, route);
             person->state = 2;
             Person* prox = person->head;
@@ -130,31 +130,31 @@ int main(int argc, char **argv){
         else if (string_equals(command, "NEGATIVE")){
         
             fscanf(input_file, "%d", &depth);
-            printf("NEGATIVE %d %d %d ", country_id, region_id, depth);
+            // printf("NEGATIVE %d %d %d ", country_id, region_id, depth);
             /* Obtenemos la ruta desde el archivo*/
             int route[depth];
             for (int r = 0; r < depth; r++){
                 fscanf(input_file, "%d", &contact_id);
                 route[r] = contact_id;
-                printf("%d ", contact_id);
+                // printf("%d ", contact_id);
             }
             Person* person = world_search(world, country_id, region_id, depth, route);
             person_discard(person);
-            printf("\n");
+            // printf("\n");
 
         } 
         else if (string_equals(command, "RECOVERED")){
         
             fscanf(input_file, "%d", &depth);
-            printf("RECOVERED %d %d %d ", country_id, region_id, depth);
+            // printf("RECOVERED %d %d %d ", country_id, region_id, depth);
             /* Obtenemos la ruta desde el archivo*/
             int route[depth];
             for (int r = 0; r < depth; r++){
                 fscanf(input_file, "%d", &contact_id);
                 route[r] = contact_id;
-                printf("%d ", contact_id);
+                // printf("%d ", contact_id);
             }
-            printf("\n");
+            // printf("\n");
             
             /* [Por implementar] */
             Person* person = world_search(world, country_id, region_id, depth, route);
@@ -163,27 +163,27 @@ int main(int argc, char **argv){
         } 
         else if (string_equals(command, "CORRECT")){
             fscanf(input_file, "%d", &depth);
-            printf("RECOVERED %d %d %d ", country_id, region_id, depth);
+            // printf("RECOVERED %d %d %d ", country_id, region_id, depth);
             /* Obtenemos la primera ruta desde el archivo*/
             int route1[depth];
             for (int r = 0; r < depth; r++){
                 fscanf(input_file, "%d", &contact_id);
                 route1[r] = contact_id;
-                printf("%d ", contact_id);
+                // printf("%d ", contact_id);
             }
             Person* person1 = world_search(world, country_id, region_id, depth, route1);
 
 
             /* Obtenemos la segunda ruta desde el archivo*/
             fscanf(input_file, "%d", &depth);
-            printf("%d ", depth);
+            // printf("%d ", depth);
             int route2[depth];
             for (int r = 0; r < depth; r++){
                 fscanf(input_file, "%d", &contact_id);
                 route2[r] = contact_id;
-                printf("%d ", contact_id);
+                // printf("%d ", contact_id);
             }
-            printf("\n");
+            // printf("\n");
 
             Person* person2 = world_search(world, country_id, region_id, depth, route2);
 
@@ -202,7 +202,9 @@ int main(int argc, char **argv){
             Person* next2 = person2->head;
             while (next1){
                 if (person1->state == 2){
-                    next1->state = 1;
+                    if (next1->state != 2){                        
+                        next1->state = 1;
+                    }
                 }
                 next1->parent = person1;
                 next1 = next1->next;
@@ -210,7 +212,9 @@ int main(int argc, char **argv){
             }
             while (next2){
                 if (person2->state == 2){
-                    next2->state = 1;
+                    if (next2->state != 2){                        
+                        next2->state = 1;
+                    }
                 }
                 next2->parent = person1;
                 next2 = next2->next;

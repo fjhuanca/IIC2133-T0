@@ -91,8 +91,8 @@ void person_discard(Person* person){
 
 void person_recursive_statistics(Person* person, int* stats){
     Person* current = person->head;
+    stats[person->state] += 1;
     while (current != NULL){
-        stats[person->state] += 1;
         person_recursive_statistics(current, stats);
         current = current->next;
     }

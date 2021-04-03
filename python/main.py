@@ -92,26 +92,117 @@ if __name__ == "__main__":
             # agregamos los contactos
             world.add_contacts(country_idx, region_idx, depth, route, n_contacts)
 
-        
         elif command == "INFORM":
             country_idx, line = fscanf(line)
             region_idx, line = fscanf(line)
             world.inform(int(country_idx), int(region_idx), output_file)
 
         elif command == "POSITIVE":
-            pass
+            country_idx, line = fscanf(line)
+            region_idx, line = fscanf(line)
+            depth, line = fscanf(line)
+            depth = int(depth)
+            route = [None for _ in range(depth)]
+            for r in range(depth):
+                person_id, line = fscanf(line)
+                route[r] = int(person_id)
 
+            country_idx, region_idx = int(country_idx), int(region_idx)
+            person = world.search(country_idx, region_idx, depth, route)
+            person.state = 2
+            prox = person.head
+            while prox:
+                prox.state = 1
+                prox = prox._next
+
+
+            
         elif command == "NEGATIVE":
-            pass
+            country_idx, line = fscanf(line)
+            region_idx, line = fscanf(line)
+            depth, line = fscanf(line)
+            depth = int(depth)
+            route = [None for _ in range(depth)]
+            for r in range(depth):
+                person_id, line = fscanf(line)
+                route[r] = int(person_id)
+
+            country_idx, region_idx = int(country_idx), int(region_idx)
+            person = world.search(country_idx, region_idx, depth, route)
+            person.discard_person()
+                
+            
 
         elif command == "RECOVERED":
-            pass
+            country_idx, line = fscanf(line)
+            region_idx, line = fscanf(line)
+            depth, line = fscanf(line)
+            depth = int(depth)
+            route = [None for _ in range(depth)]
+            for r in range(depth):
+                person_id, line = fscanf(line)
+                route[r] = int(person_id)
+
+            country_idx, region_idx = int(country_idx), int(region_idx)
+            # agregamos los contactos
+            person = world.search(country_idx, region_idx, depth, route)
+            person.state = 3
 
         elif command == "CORRECT":
-            pass
+            country_idx, line = fscanf(line)
+            region_idx, line = fscanf(line)
+            depth1, line = fscanf(line)
+            depth1 = int(depth1)
+            route1 = [None for _ in range(depth1)]
 
-        elif command == "STADISTICS":
-            pass
+            for i in range(depth1):
+                num, line = fscanf(line)
+                num = int(num)
+                route1[i] = num
+            
+            depth2, line = fscanf(line)
+            depth2 = int(depth2)
+            route2 = [None for _ in range(depth2)]
+            
+            for i in range(depth2):
+                num, line = fscanf(line)
+                num = int(num)
+                route2[i] = num
+
+            country_idx, region_idx = int(country_idx), int(region_idx)
+            person1 = world.search(country_idx, region_idx, depth1, route1)
+            person2 = world.search(country_idx, region_idx, depth2, route2)
+            temp_head_1 = person1.head
+            temp_head_2 = person2.head
+            temp_tail_1 = person1.tail
+            temp_tail_2 = person2.tail
+            person1.head = temp_head_2
+            person2.head = temp_head_1
+            person1.tail = temp_tail_2
+            person2.tail = temp_tail_1
+            
+            next1 = person1.head
+            next2 = person2.head
+            while next1:
+                if person1.state == 2:
+                    if next1.state != 2:
+                        next1.state = 1
+                next1.parent = person1
+                next1 = next1._next
+                
+            while next2:
+                if person2.state == 2:
+                    if next2.state != 2:
+                        next2.state = 1
+                next2.parent = person2
+                next2 = next2._next    
+            
+
+        elif command == "STATISTICS":
+            country_idx, line = fscanf(line)
+            region_idx, line = fscanf(line)
+            world.statistics(int(country_idx), int(region_idx), output_file)
+            
 
     # Cerramos archivo de lectura
     input_file.close()

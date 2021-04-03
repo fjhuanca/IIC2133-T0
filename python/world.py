@@ -65,3 +65,11 @@ class World:
         output_file.write(f"INFORM {country_idx} {region_idx}\n")
         first = self.countries[country_idx][region_idx]
         first.recursive_inform(0, output_file)
+        
+    def statistics(self, country_idx: int, region_idx, output_file: int) -> None:
+        stats = [0 for _ in range(4)]
+        first = self.countries[country_idx][region_idx]
+        first.recursive_statistics(stats)
+        output_file.write(f"STATISTICS {country_idx} {region_idx}\n")
+        for i in range(4):
+            output_file.write(f"{i} {stats[i]}\n")
