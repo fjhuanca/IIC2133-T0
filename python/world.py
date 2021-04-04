@@ -72,4 +72,4 @@ class World:
         first.recursive_statistics(stats)
         output_file.write(f"STATISTICS {country_idx} {region_idx}\n")
         for i in range(4):
-            output_file.write(f"{i} {stats[i]}\n")
+            output_file.write(f"{i}:{stats[i]}\n")

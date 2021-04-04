@@ -1,5 +1,5 @@
 #!/bin/bash
-
+make
 declare -a difficulty=("Easy" "Medium" "Hard")
 for j in ${difficulty[@]}
 do

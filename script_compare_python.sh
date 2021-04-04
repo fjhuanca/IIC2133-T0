@@ -7,7 +7,7 @@ do
     for i in {1..6..1}
     do
         echo -n "$j $i:"
-        r="$(diff -w solutions/${j}/test_${i}.txt results/${j}/test_${i}_out.txt)"
+        r="$(diff -w solutions/${j}/test_${i}.txt results_python/${j}/test_${i}_out.txt)"
         if [ -z "$r" ]
         then
             echo "Passed - No difference"

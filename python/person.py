@@ -82,9 +82,14 @@ class Person:
             self.parent.head = None
             self.parent.tail = None
             
-    def recursive_statistics(self, stats: List):
-        current = self.head
+    def recursive_statistics(self, stats: List, person=None):
+        
+        if not person:
+             current = self.head            
+             stats[self.state] += 1
+        else:
+            current = person.head
+            stats[person.state] += 1
         while current:
-             stats[current.state] += 1
-             current.recursive_statistics(stats)
+             current.recursive_statistics(stats, current)
              current = current._next
