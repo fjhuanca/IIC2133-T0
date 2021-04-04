@@ -234,7 +234,16 @@ int main(int argc, char **argv){
         }
 
     }
-
+    /*contador de personas*/
+    // int suma = 0;
+    // for (int i = 0; i<world->n_countries; i++){
+    //     int l = sizeof(world->people_count[i]) / sizeof (int);
+    //     for (int j = 0; j<l; j++){
+    //         suma += world->people_count[i][j];
+    //     }
+    // }
+    // printf("%d", suma);
+    
     /*  [Por implementar] Liberamos nuestra estructura */
     world_destroy(world);
 
