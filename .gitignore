@@ -1,4 +1,4 @@
 *.txt
-!tests/test.txt
+!tests/**/*
 python/__pycache__/
 obj/
